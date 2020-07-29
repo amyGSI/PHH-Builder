@@ -1,5 +1,6 @@
 mkdir aosp
 cd aosp
+export PATH=$PATH:~/.local/bin
 repo init -u https://android.googlesource.com/platform/manifest -b android-10.0.0_r31
 git clone https://github.com/phhusson/treble_manifest -b android-10.0 .repo/local_manifests
 repo sync -j128
