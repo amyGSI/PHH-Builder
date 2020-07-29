@@ -4,7 +4,7 @@
 telegram -M -C "`printenv ROM_NAME` - build started..."
 SYNC_START=$(date +"%s")
 
-sudo ./ErfanGSIs/url2GSI.sh $ROM_URL $ROM_NAME
+sudo ./aosp.sh $ROM_NAME
     mkdir final
 
     SYNC_END=$(date +"%s")
@@ -15,15 +15,14 @@ sudo ./ErfanGSIs/url2GSI.sh $ROM_URL $ROM_NAME
     telegram -M -C "`printenv ROM_NAME` - compressing GSI files..."
 
     export date2=`date +%Y%m%d%H%M`
-    export sourcever2=`cat ./ErfanGSIs/ver`
     sudo chmod -R 777 ErfanGSIs/output
                
-    cd ErfanGSIs/output/
+    cd aosp
                
     curl -sL https://git.io/file-transfer | sh
 
-    zip -r "$ZIP_NAME"-Aonly-"$sourcever2"-"$date2"-ErfanGSI.7z *-Aonly-*.img
-    zip -r "$ZIP_NAME"-AB-"$sourcever2"-"$date2"-ErfanGSI.7z *-AB-*.img
+    zip -r "$ZIP_NAME"-A-"$date2"-amyGSI.7z *-avS.img
+    zip -r "$ZIP_NAME"-AB-"$date2"-amyGSI.7z *-bvS.img
 
     SYNC_END=$(date +"%s")
     SYNC_DIFF=$((SYNC_END - SYNC_START))
