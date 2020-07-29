@@ -3,8 +3,7 @@
 
 telegram -M -C "`printenv ROM_NAME` - build started..."
 SYNC_START=$(date +"%s")
-
-sudo ./aosp.sh $ROM_NAME
+build/aosp.sh $ROM_NAME
     mkdir final
 
     SYNC_END=$(date +"%s")
