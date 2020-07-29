@@ -33,6 +33,7 @@ jobs:
               wget "https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
               mkdir -p ~/.local/bin
               curl https://storage.googleapis.com/git-repo-downloads/repo >> ~/.local/bin/repo
+              chmod a+x ~/.local/bin/repo
               unzip platform-tools-latest-linux.zip -d ~/.local/bin
               source ~/.profile
 
