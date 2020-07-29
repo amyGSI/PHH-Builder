@@ -32,6 +32,7 @@ jobs:
               telegram -M -C "`printenv ROM_NAME` - Installing platform-tools"
               wget "https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
               mkdir -p ~/.local/bin
+              curl https://storage.googleapis.com/git-repo-downloads/repo >> ~/.local/bin/repo
               unzip platform-tools-latest-linux.zip -d ~/.local/bin
               source ~/.profile
 
@@ -42,7 +43,6 @@ jobs:
          run: |
               telegram -M -C "`printenv ROM_NAME` - Installing build dependencies"
               sudo apt install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev git-repo
-              sudo snap install git-repo
               
        - name: Execute Shell Script
          env:
