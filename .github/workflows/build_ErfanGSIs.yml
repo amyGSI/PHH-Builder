@@ -9,7 +9,7 @@ env:
   MIR: gof
 jobs:
   build:
-    runs-on: ubuntu-lts
+    runs-on: ubuntu-20
 
     steps:
        - name: Checkout
