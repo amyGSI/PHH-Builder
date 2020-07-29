@@ -1,0 +1,72 @@
+name: GSI Build
+
+on: [push]
+
+env:
+  ROM_URL: https://bigota.d.miui.com/V11.0.1.0.QCMINXM/pine_in_global_images_V11.0.1.0.QCMINXM_20200616.0000.00_10.0_in_b638e97449.tgz
+  ROM_NAME: MIUI-Binder
+  ZIP_NAME: MIUI-Binder
+  TZ: Europe/London
+  MIR: gof
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+       - name: Checkout
+         uses: actions/checkout@master
+
+       - name: Initializing telegram bot
+         env:
+              TOKEN: ${{ secrets.BOT_TOKEN }}
+
+         run: |
+              sudo install telegram /usr/bin
+              chmod +x build/initial.sh
+              . build/initial.sh
+
+       - name: Set up python
+         uses: actions/setup-python@v2
+         with:
+           python-version: '3.8.2'
+ 
+       - name: Install python requirements
+         run: |
+              pip install pyrogram tgcrypto
+
+       - name: Clone ErfanGSI Source Code
+         run: git clone --recurse-submodules https://github.com/amyGSI/ErfanGSIs.git
+
+       - name: Setting up ErfanGSI requirements
+         run: |
+              sudo chmod -R 777 ErfanGSIs
+              cd ErfanGSIs
+              sudo bash setup.sh
+
+       - name: Execute Shell Script
+         env:
+              TOKEN: ${{ secrets.BOT_TOKEN }}
+              
+         run: |
+               chmod +x build/build.sh
+               . build/build.sh
+
+       - name: Copy and rename A-only build info
+         run: cp ErfanGSIs/output/*Aonly*.txt Aonly.txt
+
+       - name: Print A-Only build info
+         run: |
+              cat ErfanGSIs/output/*Aonly*.txt
+
+       - name: Print AB build info
+         run: |
+              cat ErfanGSIs/output/*-AB-*.txt
+
+       - name: Send build info to Telegram
+         env:
+              CHAT_ID: ${{ secrets.CHAT_ID }}
+              BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+              API_ID: ${{ secrets.API_ID }}
+              API_HASH: ${{ secrets.API_HASH }}
+         run: |
+              python .github/workflows/robot.py
